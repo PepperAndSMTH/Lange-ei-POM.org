@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const img = document.querySelector('img');
+        let countdownDiv = null;
+        img.addEventListener('click', function() {
+            // Remove any previous countdown or explosion
+            if (countdownDiv) countdownDiv.remove();
+
+            countdownDiv = document.createElement('div');
+            countdownDiv.style.position = 'absolute';
+            countdownDiv.style.left = (img.offsetLeft + img.offsetWidth / 2) + 'px';
+            countdownDiv.style.top = (img.offsetTop - 40) + 'px';
+            countdownDiv.style.transform = 'translate(-50%, 0)';
+            countdownDiv.style.fontSize = '40px';
+            countdownDiv.style.color = 'red';
+            countdownDiv.style.fontWeight = 'bold';
+            countdownDiv.textContent = '5';
+            document.body.appendChild(countdownDiv);
+
+            let timeLeft = 5;
+            const timer = setInterval(() => {
+                timeLeft--;
+                countdownDiv.textContent = timeLeft;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    countdownDiv.remove();
+
+                    let explosion = document.createElement('img');
+                    explosion.src = 'explosion.gif';
+                    explosion.alt = 'Explosion';
+                    explosion.style.position = 'absolute';
+                    const newWidth = img.offsetWidth * 1.5;
+                    const newHeight = img.offsetHeight * 1.5;
+                    explosion.style.left = (img.offsetLeft - (newWidth - img.offsetWidth) / 2) + 'px';
+                    explosion.style.top = (img.offsetTop - (newHeight - img.offsetHeight) / 2) + 'px';
+                    explosion.style.width = newWidth + 'px';
+                    explosion.style.height = newHeight + 'px';
+                    explosion.style.pointerEvents = 'none';
+                    document.body.appendChild(explosion);
+
+                    // Add shake effect
+                    document.body.classList.add('shake');
+                    setTimeout(() => {
+                        explosion.remove();
+                        document.body.classList.remove('shake');
+                        window.close();
+                    }, 1000);
+                }
+            }, 1000);
+        });
+        document.body.style.position = 'relative';
+    });
+</script>
+<style>
+@keyframes shake {
+  0% { transform: translate(0px, 0px); }
+  10% { transform: translate(-10px, 0px); }
+  20% { transform: translate(10px, 0px); }
+  30% { transform: translate(-10px, 0px); }
+  40% { transform: translate(10px, 0px); }
+  50% { transform: translate(-10px, 0px); }
+  60% { transform: translate(10px, 0px); }
+  70% { transform: translate(-10px, 0px); }
+  80% { transform: translate(10px, 0px); }
+  90% { transform: translate(-10px, 0px); }
+  100% { transform: translate(0px, 0px); }
+}
+.shake {
+  animation: shake 1s;
+}
+</style>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lange Ei</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #fff;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <img src="ei.png" alt="Lange Ei">
+</body>
+</html>
